@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+
+# Virtualenv
+.venv/
+venv/
+
+# Packaging
+*.egg-info/
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# SQLite
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# IDEs
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,38 @@
+[project]
+name = "movesystem"
+version = "0.1.0"
+description = "Sistema RH MoveSystem (Desktop)"
+readme = "docs/README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "pyside6>=6.7",
+  "sqlalchemy>=2.0",
+  "alembic>=1.13",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["movesystem"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# NOTE: Scripts dependem de definirmos o entrypoint final do app.
+# Por enquanto, rodaremos pelo PyCharm (run file/module) até fixarmos isso.
