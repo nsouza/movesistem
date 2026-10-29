@@ -1,13 +1,3 @@
-# src/movesystem/main.py
-
-"""
-Responsabilidade:
-- Ponto de entrada do sistema MoveSystem.
-- Inicializa a aplicação Qt (QApplication) e abre a janela principal (MainWindow).
-"""
-
-from __future__ import annotations
-
 import sys
 
 from PySide6.QtWidgets import QApplication
@@ -27,7 +17,6 @@ def main() -> None:
     window.show()
 
     sys.exit(app.exec())
-
 
 if __name__ == "__main__":
     main()
