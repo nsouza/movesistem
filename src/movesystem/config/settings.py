@@ -2,18 +2,18 @@
 
 """
 Responsabilidade:
-- Centralizar configurações do aplicativo.
-- Ser a fonte única de verdade para paths e URL do banco.
-- Permitir reaproveitar em outros sistemas (mesmo padrão).
+- Centralizar configuracoes do aplicativo.
+- Ser a fonte unica de verdade para paths e URL do banco.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
 
+from movesystem.database.engine import build_sqlite_url
 
-# NOTE: Convenção do projeto:
-# Banco SQLite fica em ./data/movesystem.db (relativo à raiz do projeto).
+# NOTE: Convencao do projeto: banco SQLite fica em ./data/movesystem.db
+# (relativo a raiz do projeto).
 DB_FILENAME = "movesystem.db"
 DATA_DIRNAME = "data"
 
@@ -21,11 +21,11 @@ DATA_DIRNAME = "data"
 def get_project_root() -> Path:
     """
     Responsabilidade:
-    - Descobrir a raiz do projeto em tempo de execução.
-    - Evitar caminhos hardcoded em Windows.
+    - Descobrir a raiz do projeto em tempo de execucao.
+    - Evitar caminhos hardcoded no Windows.
     """
-    # NOTE: settings.py está em src/movesystem/config/settings.py
-    # Subindo 4 níveis chegamos na raiz do repositório:
+    # NOTE: settings.py esta em src/movesystem/config/settings.py
+    # Subindo 4 niveis chegamos na raiz do repositorio:
     # settings.py -> config -> movesystem -> src -> <root>
     return Path(__file__).resolve().parents[3]
 
@@ -53,7 +53,4 @@ def get_database_url() -> str:
     Responsabilidade:
     - Retornar a URL do banco no formato aceito pelo SQLAlchemy.
     """
-    # Import local para evitar dependência circular em import time.
-    from movesystem.infrastructure.db.engine import build_sqlite_url
-
     return build_sqlite_url(get_sqlite_db_path())
