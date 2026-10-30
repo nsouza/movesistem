@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
 
         action_colaborador = menu_cadastros.addAction("Colaborador")
         action_colaborador.triggered.connect(
-            lambda: self._open_tab("Colaborador", "Tela de Colaborador (em construção)")
+            self._open_team_member_modal
         )
 
         action_afastamento = menu_cadastros.addAction("Afastamento")
@@ -91,6 +91,18 @@ class MainWindow(QMainWindow):
             lambda: self._open_tab("Sobre", "MoveSystem - Sistema de RH")
         )
 
+    def _open_team_member_modal(self) -> None:
+        """Abre o cadastro de colaboradores como janela modal (bloqueia a principal)."""
+        from movesystem.views.forms.team_member_form import TeamMemberForm
+        from movesystem.views.widgets.form_dialog import FormDialog
+
+        dialog = FormDialog(
+            form=TeamMemberForm(parent=self),
+            title="MoveSystem v2.0 - Colaboradores",
+            parent=self,
+        )
+        dialog.exec()
+
     def _open_tab(self, title: str, placeholder_text: str) -> None:
         """
         Responsabilidade:
@@ -110,6 +122,25 @@ class MainWindow(QMainWindow):
         layout.addWidget(QLabel(placeholder_text))
 
         index = self._tabs.addTab(placeholder, title)
+        self._tabs.setCurrentIndex(index)
+
+    def _open_form_tab(self, title: str, module_path: str, class_name: str) -> None:
+        """
+        Responsabilidade:
+        - Abrir um form real dentro de uma aba, carregando via import dinamico.
+        - Se a aba ja existir, apenas foca nela.
+        """
+        for index in range(self._tabs.count()):
+            if self._tabs.tabText(index) == title:
+                self._tabs.setCurrentIndex(index)
+                return
+
+        # Import dinamico para evitar imports pesados na inicializacao da MainWindow.
+        module = __import__(module_path, fromlist=[class_name])
+        form_class = getattr(module, class_name)
+
+        form = form_class()
+        index = self._tabs.addTab(form, title)
         self._tabs.setCurrentIndex(index)
 
     def _close_tab(self, index: int) -> None:
